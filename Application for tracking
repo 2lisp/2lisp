@@ -1,0 +1,63 @@
+import pygame
+import numpy as np
+import matplotlib.pyplot as plt
+
+class StarTracker:
+
+    def __init__(self):
+        self.screen = pygame.display.set_mode((800, 600))
+        self.clock = pygame.time.Clock()
+        self.stars = []
+        self.exoplanets = []
+
+    def update(self):
+        # Update the position of the stars and exoplanets.
+        for star in self.stars:
+            star.update()
+        for exoplanet in self.exoplanets:
+            exoplanet.update()
+
+        # Clear the screen.
+        self.screen.fill((0, 0, 0))
+
+        # Draw the stars and exoplanets.
+        for star in self.stars:
+            pygame.draw.circle(self.screen, star.color, star.position, star.radius)
+        for exoplanet in self.exoplanets:
+            pygame.draw.circle(self.screen, exoplanet.color, exoplanet.position, exoplanet.radius)
+
+        # Update the display.
+        pygame.display.flip()
+
+    def add_star(self, position, radius, color):
+        self.stars.append(Star(position, radius, color))
+
+    def add_exoplanet(self, position, radius, color):
+        self.exoplanets.append(Exoplanet(position, radius, color))
+
+    def main(self):
+        # Run the main loop.
+        running = True
+        while running:
+            # Handle events.
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+
+            # Update the game state.
+            self.update()
+
+            # Limit the frame rate to 60 frames per second.
+            self.clock.tick(60)
+
+if __name__ == "__main__":
+    # Create a new StarTracker object.
+    tracker = StarTracker()
+
+    # Add some stars and exoplanets.
+    tracker.add_star((100, 100), 50, (255, 255, 255))
+    tracker.add_star((200, 200), 25, (0, 0, 255))
+    tracker.add_exoplanet((300, 300), 10, (255, 0, 0))
+
+    # Run the main loop.
+    tracker.main()
